@@ -1,38 +1,42 @@
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import { Entypo, EvilIcons } from '@expo/vector-icons';
 import { TweetType } from '../types';
 import IconButton from './IconButton';
+import { Link } from 'expo-router';
 
 type TweetProps = {
   tweet: TweetType;
 };
+
 const Tweet = ({ tweet }: TweetProps) => {
   return (
-    <View style={styles.container}>
-      <Image src={tweet.user.image} style={styles.userImage} />
-      <View style={styles.mainContainer}>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.name}>{tweet.user.name}</Text>
-          <Text style={styles.username}>{tweet.user.username} · 2h</Text>
-          <Entypo
-            name="dots-three-horizontal"
-            size={16}
-            color="gray"
-            style={{ marginLeft: 'auto' }}
-          />
-        </View>
-        <Text style={styles.content}>{tweet.content}</Text>
-        {tweet.image && <Image src={tweet.image} style={styles.image} />}
+    <Link href={{ pathname: `/tweet/${tweet.id}`, params: { tweet } }} asChild>
+      <Pressable style={styles.container}>
+        <Image src={tweet.user.image} style={styles.userImage} />
+        <View style={styles.mainContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={styles.name}>{tweet.user.name}</Text>
+            <Text style={styles.username}>{tweet.user.username} · 2h</Text>
+            <Entypo
+              name="dots-three-horizontal"
+              size={16}
+              color="gray"
+              style={{ marginLeft: 'auto' }}
+            />
+          </View>
+          <Text style={styles.content}>{tweet.content}</Text>
+          {tweet.image && <Image src={tweet.image} style={styles.image} />}
 
-        <View style={styles.footer}>
-          <IconButton icon="comment" text={tweet.numberOfComments} />
-          <IconButton icon="retweet" text={tweet.numberOfRetweets} />
-          <IconButton icon="heart" text={tweet.numberOfLikes} />
-          <IconButton icon="chart" text={tweet.impressions || 0} />
-          <IconButton icon="share-apple" />
+          <View style={styles.footer}>
+            <IconButton icon="comment" text={tweet.numberOfComments} />
+            <IconButton icon="retweet" text={tweet.numberOfRetweets} />
+            <IconButton icon="heart" text={tweet.numberOfLikes} />
+            <IconButton icon="chart" text={tweet.impressions || 0} />
+            <IconButton icon="share-apple" />
+          </View>
         </View>
-      </View>
-    </View>
+      </Pressable>
+    </Link>
   );
 };
 const styles = StyleSheet.create({
