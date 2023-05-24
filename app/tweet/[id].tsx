@@ -5,7 +5,6 @@ import { Text } from 'react-native';
 
 export default function TweetScreen() {
   const { id } = useSearchParams();
-  console.warn(id);
 
   const tweet = tweets.find((t) => t.id === id);
   if (!tweet) {
